@@ -1,0 +1,4 @@
+Flask>=3.0
+# Optional but recommended: enables .pdf support (pure Python, no system tools needed).
+# If you remove this line, Privata still works for .txt, .md, .html and .csv.
+pypdf>=4.0

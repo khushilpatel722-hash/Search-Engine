@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Documents — Privata{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Documents</h1>
+  <p class="sub">Manage the files in your private library. Everything is stored in <code>data/documents</code> on this computer.</p>
+</section>
+
+<section class="panel" aria-labelledby="idxTitle">
+  <div class="panel-head"><h3 id="idxTitle">Search index</h3><span class="status" id="idxStatus">…</span></div>
+  <div class="stat-row">
+    <div class="stat"><span class="num" id="stDocs">–</span><span class="cap">Documents Indexed</span></div>
+    <div class="stat"><span class="num" id="stWords">–</span><span class="cap">Words Indexed</span></div>
+    <div class="stat"><span class="num sm" id="stUpdate">–</span><span class="cap">Last Index Update</span></div>
+    <div class="stat"><span class="num sm" id="stState">–</span><span class="cap">Index Status</span></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn primary" id="btnBuild" type="button"><svg class="i"><use href="#i-db"/></svg>Build Index</button>
+    <button class="btn ghost" id="btnRebuild" type="button"><svg class="i"><use href="#i-refresh"/></svg>Rebuild Index</button>
+    <button class="btn ghost danger" id="btnClear" type="button"><svg class="i"><use href="#i-trash"/></svg>Clear Index</button>
+  </div>
+  <p class="muted small">Build Index adds new or changed files from <code>data/documents</code>. Clear Index removes only the search index — never your documents.</p>
+  <div class="notice warn" id="skipped" hidden></div>
+</section>
+
+<section class="panel" id="upload" aria-labelledby="upTitle">
+  <div class="panel-head"><h3 id="upTitle">Add documents</h3><span class="muted small" id="typesHint"></span></div>
+  <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop files here or browse">
+    <svg class="i big-i"><use href="#i-upload"/></svg>
+    <strong>Drop your files here</strong>
+    <span>or</span>
+    <button class="btn primary" id="browse" type="button">Browse Files</button>
+    <input type="file" id="fileInput" multiple hidden>
+  </div>
+  <ul class="queue" id="queue"></ul>
+</section>
+
+<section aria-labelledby="libTitle">
+  <div class="lib-head">
+    <h2 id="libTitle">Library <span class="count" id="libCount">0</span></h2>
+    <input type="search" id="libFilter" placeholder="Filter by file name…" maxlength="100" aria-label="Filter documents by name">
+  </div>
+  <div class="docs" id="docs"></div>
+  <div class="empty" id="docsEmpty" hidden>
+    <div class="empty-icon"><svg class="i"><use href="#i-folder"/></svg></div>
+    <h3>Your private library is empty.</h3>
+    <p>Add documents to start searching.</p>
+    <button class="btn primary" id="emptyAdd" type="button"><svg class="i"><use href="#i-plus"/></svg>Add Documents</button>
+  </div>
+</section>
+{% endblock %}

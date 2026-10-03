@@ -1,0 +1,9 @@
+Introduction to Artificial Intelligence
+
+Artificial intelligence, or AI, is the science of building systems that perform tasks which normally need human intelligence, such as understanding language, recognising images, planning and solving problems.
+
+Early AI relied on symbolic reasoning and expert systems, where knowledge was written as rules. Modern AI is dominated by machine learning and deep learning, which learn from large amounts of data.
+
+Important areas of artificial intelligence include natural language processing, computer vision, robotics, speech recognition and recommendation systems. Search engines also use AI techniques to understand what a user is looking for.
+
+AI raises ethical questions about fairness, bias in data, transparency and privacy. Responsible AI development means protecting personal data and explaining how decisions are made.

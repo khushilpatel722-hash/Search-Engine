@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Search — Privata{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Search</h1>
+  <p class="sub"><svg class="i"><use href="#i-lock"/></svg> Searching your private library. Your files stay on your device.</p>
+</section>
+
+{% set sb_big = true %}{% set sb_clear = true %}{% include "_searchbox.html" %}
+
+<section class="filters" aria-label="Filters and sorting">
+  <label>File type
+    <select id="fType"><option value="all">All types</option><option value="txt">TXT</option><option value="md">MD</option><option value="html">HTML</option><option value="csv">CSV</option><option value="pdf">PDF</option></select>
+  </label>
+  <label>Date modified
+    <select id="fDate"><option value="any">Any time</option><option value="today">Today</option><option value="week">Past 7 days</option><option value="month">Past 30 days</option><option value="year">Past year</option></select>
+  </label>
+  <label>Relevance
+    <select id="fRel"><option value="0">Any</option><option value="25">25% and above</option><option value="50">50% and above</option><option value="75">75% and above</option></select>
+  </label>
+  <label>Sort by
+    <select id="fSort"><option value="relevance">Relevance</option><option value="alpha">Alphabetical</option><option value="newest">Newest</option><option value="oldest">Oldest</option></select>
+  </label>
+</section>
+
+<div class="split">
+  <section aria-live="polite">
+    <p class="stats" id="stats" hidden></p>
+    <div id="results" class="results"></div>
+
+    <div class="empty" id="stateIdle">
+      <div class="empty-icon"><svg class="i"><use href="#i-search"/></svg></div>
+      <h3>Search your private library</h3>
+      <p>Type a word or phrase above. Try “machine learning” or “inverted index”.</p>
+    </div>
+    <div class="empty" id="stateLibrary" hidden>
+      <div class="empty-icon"><svg class="i"><use href="#i-folder"/></svg></div>
+      <h3>Your private library is empty.</h3>
+      <p>Add documents to start searching.</p>
+      <a class="btn primary" href="{{ url_for('page_documents') }}#upload"><svg class="i"><use href="#i-plus"/></svg>Add Documents</a>
+    </div>
+    <div class="empty" id="stateNone" hidden>
+      <div class="empty-icon"><svg class="i"><use href="#i-search"/></svg></div>
+      <h3>No matching documents found.</h3>
+      <p>Try different keywords or remove filters.</p>
+    </div>
+    <div class="notice error" id="stateError" hidden></div>
+  </section>
+
+  <aside class="side">
+    <div class="panel">
+      <div class="panel-head"><h3>Recent searches</h3><button class="link" id="clearHistory" type="button" hidden>Clear history</button></div>
+      <div class="chips col" id="recent"><span class="muted">No searches yet.</span></div>
+      <p class="muted small">Stored only in <code>data/app_data</code> on this computer.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

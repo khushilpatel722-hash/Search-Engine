@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Privata — {{ code }}{% endblock %}
+{% block content %}
+<section class="empty center">
+  <div class="empty-icon"><svg class="i"><use href="#i-shield"/></svg></div>
+  <h1>{{ code }}</h1>
+  <p>{{ message }}</p>
+  <a class="btn primary" href="{{ url_for('page_home') }}">Back to home</a>
+</section>
+{% endblock %}

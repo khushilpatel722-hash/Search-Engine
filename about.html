@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}About — Privata{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>About Privata</h1>
+  <p class="sub">Privata is a lightweight private search engine designed to demonstrate how document indexing, inverted indexes, query processing and relevance ranking work.</p>
+</section>
+<section class="cards">
+  <article class="card"><h3>Built for</h3><p>MCA Academic Project</p></article>
+  <article class="card"><h3>Technologies</h3><div class="tags"><span>Python</span><span>Flask</span><span>HTML</span><span>CSS</span><span>JavaScript</span></div></article>
+  <article class="card"><h3>Concepts</h3><div class="tags"><span>Information Retrieval</span><span>Text Processing</span><span>Inverted Index</span><span>TF-IDF</span><span>Ranking</span><span>Local Search</span></div></article>
+</section>
+<section class="section">
+  <h2>How a search is answered</h2>
+  <ol class="pipeline vertical">
+    <li><b>Query</b><span>You type words in the browser.</span></li>
+    <li><b>Flask</b><span><code>/api/search</code> receives the request on your computer.</span></li>
+    <li><b>Query processor</b><span>Words are cleaned exactly like the documents were.</span></li>
+    <li><b>Inverted index</b><span>Each word is looked up to find candidate documents.</span></li>
+    <li><b>Ranking engine</b><span>TF-IDF scores are calculated and sorted.</span></li>
+    <li><b>Results</b><span>Snippets are highlighted and sent back with the measured search time.</span></li>
+  </ol>
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+Database Management Systems
+
+A database management system, or DBMS, stores, organises and retrieves data efficiently. Relational databases such as MySQL and PostgreSQL store data in tables made of rows and columns, and they are queried with SQL.
+
+Key database concepts are the primary key, which uniquely identifies a row, and the foreign key, which links two tables. Normalization reduces duplicate data by splitting information into related tables. Transactions follow the ACID properties: atomicity, consistency, isolation and durability.
+
+An index in a database works like the index of a book: it lets the system find rows quickly without scanning the whole table. Search engines use a similar idea called an inverted index, which maps each word to the documents that contain it.
+
+NoSQL databases such as MongoDB store flexible documents and are useful when the structure of the data changes often.

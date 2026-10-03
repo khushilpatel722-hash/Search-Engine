@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Analytics — Privata{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Analytics</h1>
+  <p class="sub">Calculated from your real activity and stored only on this computer.</p>
+</section>
+<section class="stat-row cards-4">
+  <div class="stat panel"><span class="num" id="aDocs">–</span><span class="cap">Documents Indexed</span></div>
+  <div class="stat panel"><span class="num" id="aWords">–</span><span class="cap">Words Indexed</span></div>
+  <div class="stat panel"><span class="num" id="aSearches">–</span><span class="cap">Total Searches</span></div>
+  <div class="stat panel"><span class="num" id="aAvg">–</span><span class="cap">Average Search Time</span></div>
+</section>
+<section class="grid-2">
+  <div class="panel"><h3>Most searched terms</h3><div id="cTerms" class="hbars"></div></div>
+  <div class="panel"><h3>Searches in the last 7 days</h3><div id="cDays" class="vbars"></div></div>
+  <div class="panel"><h3>Indexed documents by type</h3><div id="cTypes" class="hbars"></div></div>
+  <div class="panel"><h3>Search quality</h3>
+    <ul class="facts">
+      <li><span>Unique terms in index</span><b id="aTerms">–</b></li>
+      <li><span>Searches with no results</span><b id="aNone">–</b></li>
+    </ul>
+    <p class="muted small">Run a few searches on the Search page and these charts fill up.</p>
+  </div>
+</section>
+{% endblock %}

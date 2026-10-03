@@ -1,0 +1,9 @@
+Machine Learning Notes
+
+Machine learning is a branch of artificial intelligence in which computers learn patterns from data instead of following hand-written rules. A machine learning model is trained on examples and then used to make predictions on new data.
+
+There are three main types of machine learning. Supervised learning uses labelled examples, such as emails marked as spam or not spam. Unsupervised learning looks for hidden structure in unlabelled data, for example grouping customers with similar behaviour. Reinforcement learning trains an agent by giving rewards for good decisions.
+
+Common machine learning algorithms include linear regression, decision trees, k-nearest neighbours, support vector machines and neural networks. A good model must generalise: it should perform well on data it has never seen. Overfitting happens when a model memorises the training data, and it is reduced with more data, simpler models and validation sets.
+
+Typical steps in a machine learning project are collecting data, cleaning data, selecting features, training the model, evaluating accuracy and deploying the result.

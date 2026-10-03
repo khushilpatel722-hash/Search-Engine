@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Privata — Search privately. Discover locally.{% endblock %}</title>
+  <meta name="description" content="Privata is a private search engine for your local documents. Your files stay on your device.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%236366f1'/%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='M19 19l6 6' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-page="{{ page }}">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></symbol>
+  <symbol id="i-motion" viewBox="0 0 24 24"><path d="M4 12c3-6 5-6 8 0s5 6 8 0"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 00-14-4L4 9M4 4v5h5M4 13a8 8 0 0014 4l2-2M20 20v-5h-5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="grid"></div>
+  <canvas id="bg"></canvas>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="{{ url_for('page_home') }}" aria-label="Privata home">
+      <span class="logo"><svg class="i"><use href="#i-search"/></svg></span><span class="brand-name">PRIVATA</span>
+    </a>
+    <nav id="menu" class="menu" aria-label="Main">
+      <a href="{{ url_for('page_home') }}" class="{{ 'on' if page == 'home' }}">Home</a>
+      <a href="{{ url_for('page_search') }}" class="{{ 'on' if page == 'search' }}">Search</a>
+      <a href="{{ url_for('page_documents') }}" class="{{ 'on' if page == 'documents' }}">Documents</a>
+      <a href="{{ url_for('page_analytics') }}" class="{{ 'on' if page == 'analytics' }}">Analytics</a>
+      <a href="{{ url_for('page_privacy') }}" class="{{ 'on' if page == 'privacy' }}">Privacy</a>
+      <a href="{{ url_for('page_about') }}" class="{{ 'on' if page == 'about' }}">About</a>
+    </nav>
+    <div class="tools">
+      <button class="tool" id="animBtn" type="button" title="Turn the animated background on or off"><svg class="i"><use href="#i-motion"/></svg><span class="lbl" id="animLbl">Animation: On</span></button>
+      <button class="tool" id="themeBtn" type="button" title="Switch between dark and light mode"><svg class="i" id="themeIcon"><use href="#i-moon"/></svg><span class="lbl" id="themeLbl">Dark Mode</span></button>
+      <button class="tool menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">{% block content %}{% endblock %}</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span><svg class="i"><use href="#i-lock"/></svg> Your files stay on your device.</span>
+    <span>Privata · MCA academic project · Runs offline on 127.0.0.1</span>
+  </div>
+</footer>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<div class="modal" id="viewer" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+    <div class="modal-head">
+      <h3 id="viewerTitle">Document</h3>
+      <button class="icon-btn" id="viewerClose" type="button" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-tools">
+      <input type="search" id="viewerFind" placeholder="Find whole words in this document…" autocomplete="off" maxlength="200">
+      <span class="muted" id="viewerCount"></span>
+    </div>
+    <pre class="viewer-text" id="viewerText"></pre>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

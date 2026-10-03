@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Privacy — Privata{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Privacy</h1>
+  <p class="sub">Privata is designed as a local application. Your indexed document contents are processed on your own machine and are not intentionally transmitted to third-party search services.</p>
+</section>
+<section class="cards two">
+  <article class="card"><h3>What stays private?</h3>
+    <ul class="ticks"><li>No cloud upload</li><li>No external search API</li><li>Local indexing</li><li>Local search</li><li>User-controlled documents</li></ul>
+    <p>Document text, search queries and results never leave this computer through Privata.</p></article>
+  <article class="card"><h3>How indexing works</h3>
+    <p>Privata reads each file, extracts its text, lowercases it, removes punctuation and common words, then records which words appear in which documents. That map is the <em>inverted index</em>. All of it happens inside the Python process running on your computer.</p></article>
+  <article class="card"><h3>Where files are stored</h3>
+    <ul class="plain"><li><code>data/documents/</code> — your documents (copies of uploaded files)</li><li><code>data/index/</code> — the search index and cached text, as JSON and TXT</li><li><code>data/app_data/</code> — search history, as JSON</li></ul>
+    <p>You can open, back up or delete these folders yourself at any time.</p></article>
+  <article class="card"><h3>What data leaves the device?</h3>
+    <p>Privata makes no outgoing network requests. It uses no analytics scripts, web fonts, CDNs or APIs, and the server listens on <code>127.0.0.1</code>, so other computers cannot reach it. Your browser may still talk to the internet for other tabs; that is outside Privata.</p></article>
+  <article class="card"><h3>Search history</h3>
+    <p>Recent searches and the Analytics page come from a local log. Use <b>Clear history</b> on the Search page to erase it. Your theme and animation choices are saved in your browser's local storage.</p></article>
+  <article class="card"><h3>Security limitations</h3>
+    <ul class="plain"><li>Files and the index are stored as plain readable files. They are <b>not encrypted</b>; anyone with access to your computer account can read them.</li><li>Basic protections are included: file-type checks, a 10 MB size limit, safe file names, path-traversal prevention and HTML escaping.</li><li>This is a learning project, not a hardened security product. Do not expose it to a public network.</li></ul></article>
+</section>
+{% endblock %}

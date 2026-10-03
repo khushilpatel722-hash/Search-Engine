@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <span class="badge"><span class="dot"></span>🔒 100% Local Search</span>
+  <h1>Your Search. Your Data. Your Privacy.</h1>
+  <p class="lead">A fast, private search engine that searches your local documents without sending your data to the cloud.</p>
+  {% set sb_big = true %}{% include "_searchbox.html" %}
+  <div class="hero-actions">
+    <a class="btn ghost" href="{{ url_for('page_documents') }}#upload"><svg class="i"><use href="#i-plus"/></svg>Add Documents</a>
+    <a class="btn ghost" href="#features">Explore Features</a>
+  </div>
+  <div class="chips" id="homeRecent" hidden></div>
+  <p class="hero-stats" id="homeStats">Your files stay on your device.</p>
+</section>
+
+<section class="section" id="how">
+  <h2>From a file to a ranked result</h2>
+  <p class="sub">Everything below runs inside this one Python process on your computer.</p>
+  <ol class="pipeline">
+    <li><b>Documents</b><span>.txt .md .html .csv .pdf</span></li>
+    <li><b>Text extraction</b><span>Read the visible text</span></li>
+    <li><b>Tokenization</b><span>Lowercase, split, drop stop words</span></li>
+    <li><b>Inverted index</b><span>word → documents</span></li>
+    <li><b>Query processing</b><span>Same cleaning as documents</span></li>
+    <li><b>TF-IDF ranking</b><span>Score every candidate</span></li>
+    <li><b>Results</b><span>Snippet and highlights</span></li>
+  </ol>
+</section>
+
+<section class="section" id="features">
+  <h2>What Privata does</h2>
+  <div class="cards">
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-lock"/></svg></div><h3>Private by design</h3><p>No cloud upload, no external search API. Documents and search history stay in this project's data folder.</p></article>
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-bolt"/></svg></div><h3>Fast inverted index</h3><p>Queries look up words in a dictionary instead of scanning every file, so results arrive in milliseconds.</p></article>
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-chart"/></svg></div><h3>TF-IDF ranking</h3><p>Rare, meaningful words count more than common ones, and the best match is shown first with a relevance score.</p></article>
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-search"/></svg></div><h3>Snippets and highlights</h3><p>Every result shows the passage that matches your words, with safe HTML escaping.</p></article>
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-upload"/></svg></div><h3>Drag-and-drop library</h3><p>Drop files to index them instantly. Remove or re-index any time, and clear the index without touching your files.</p></article>
+    <article class="card"><div class="ci"><svg class="i"><use href="#i-clock"/></svg></div><h3>Real analytics</h3><p>Search count, average search time and top terms are measured from your own activity, never invented.</p></article>
+  </div>
+</section>
+{% endblock %}
