@@ -1,170 +1,230 @@
-# Privata — Private Local Search Engine
+# 🔐 Privata — Private Local Search Engine
 
-> **Search privately. Discover locally.** · Your files stay on your device.
+### **Search Privately. Discover Locally.**
 
-## Introduction
-Privata is a lightweight search engine for **your own documents**. It reads files you add, builds an **inverted index**, and ranks results with **TF-IDF** — all on your computer. Nothing is sent to Google, Bing, OpenAI, a cloud service or any other external API. It is an MCA academic project that demonstrates how the core of a search engine works.
+**Privata** is a modern, lightweight, and privacy-focused **local search engine** designed to search documents directly from a user's computer. Built using **Python, Flask, HTML5, CSS3, and Vanilla JavaScript**, the project combines a professional web interface with practical **Information Retrieval** techniques.
 
-## Problem Statement
-Cloud and desktop search tools often upload content or queries to remote servers. Students and professionals who keep private notes, reports or study material need a way to find information quickly **without giving their data to a third party**. Building such a tool is also a practical way to understand how search actually works.
+Privata provides a complete local search experience with **document indexing, inverted indexing, text processing, TF-IDF-based relevance ranking, search suggestions, highlighted results, document management, analytics, and responsive UI** — all designed to work locally without requiring an external database, cloud service, or search API.
 
-## Objectives
-1. Build a search engine that works completely offline on local files.
-2. Implement text extraction, tokenization, an inverted index and TF-IDF ranking from scratch.
-3. Provide a modern, responsive interface with snippets, highlighting and filters.
-4. Keep it simple: Python + Flask + plain HTML/CSS/JS, no database server.
-5. Add basic security (file validation, size limit, path-traversal protection, HTML escaping).
+## ✨ Key Highlights
 
-## Features
-- Local document indexing (`.txt .md .html .csv`, plus `.pdf` through the optional `pypdf` package)
-- Inverted index + TF-IDF ranking with a relevance percentage
-- Highlighted snippets, file path, size and last-modified date
-- Filters (file type, date, minimum relevance) and sorting (relevance, A–Z, newest, oldest)
-- Search suggestions from the indexed vocabulary and your past searches (no external API)
-- Recent searches with *Clear history*
-- Drag-and-drop upload with progress, friendly errors and duplicate detection
-- Documents page: view, remove, filter, Build / Rebuild / Clear index
-- Analytics from real activity: searches, average time, top terms, documents by type
-- Dark / light theme, animated background that can be switched off, responsive layout
-- Privacy and About pages
+* 🔐 **Privacy-First Local Search**
+* ⚡ **Fast Document Indexing & Searching**
+* 🧠 **TF-IDF-Based Relevance Ranking**
+* 🔎 **Efficient Inverted Index**
+* 📄 **Multi-Format Document Support**
+* 📝 **Smart Search Snippets**
+* 🖍️ **Keyword Highlighting**
+* 💡 **Local Search Suggestions**
+* 🗂️ **Complete Document Management**
+* 🖱️ **Drag & Drop Document Upload**
+* 📊 **Search Analytics Dashboard**
+* 🕘 **Local Recent Search History**
+* 🌙 **Modern Dark & Light Mode**
+* 📱 **Responsive Professional Interface**
+* 🎨 **Modern Glassmorphism-Inspired UI**
+* ⚙️ **Lightweight & Easy to Run**
+* 💻 **Completely Local Processing**
 
-## Technology Stack
-| Layer | Technology |
-|-------|-----------|
-| Frontend | HTML5, CSS3, vanilla JavaScript (canvas background; no libraries, CDN or web fonts) |
-| Backend | Python 3, Flask |
-| Search | Python standard library (`re`, `math`, `json`, `csv`, `html.parser`) |
-| Storage | JSON and TXT files in `data/` — **no database server** |
-| Optional | `pypdf` for PDF text extraction |
+## 🧠 Search Engine Workflow
 
-## System Architecture
-```
-User
-  ↓
-Web Interface (HTML / CSS / JavaScript)
-  ↓  fetch() calls to 127.0.0.1 only
-Flask Application (app.py)
-  ↓
-Query Processor (tokenizer.py)
-  ↓
-Search Engine (searcher.py)
-  ↓
-Inverted Index (indexer.py)  →  data/index/index.json
-  ↓
-Ranking Engine (ranking.py: TF-IDF)
-  ↓
-Local Documents (data/documents/)
-  ↓
-Search Results (snippets, highlights, measured timing)
+```text
+Documents
+    ↓
+Text Extraction
+    ↓
+Text Preprocessing
+    ↓
+Tokenization
+    ↓
+Inverted Index
+    ↓
+Query Processing
+    ↓
+TF-IDF Relevance Calculation
+    ↓
+Document Ranking
+    ↓
+Highlighted Search Results
 ```
 
-## Working Flow
-```
- INDEXING                                       SEARCHING
- ────────                                       ─────────
- Document file                                  Query "machine learning"
-   │ extract text (txt/md/html/csv/pdf)           │ same normalisation
-   ▼                                              ▼
- lowercase → remove punctuation                 tokens: [machine, learning]
-   │ split into tokens                            │ look up each token
-   ▼                                              ▼
- remove stop words → light stemming             inverted index → candidate documents
-   │ count words                                  │ TF-IDF score per document
-   ▼                                              ▼
- inverted index (word → {doc: count})           sort → filters → snippets → results (+ timing)
-```
+This workflow demonstrates the fundamental architecture used in **Information Retrieval and search systems**.
 
-## Search Algorithm
-1. **Normalize** – lowercase, replace punctuation with spaces.
-2. **Tokenize** – split into words; ignore 1-letter tokens.
-3. **Remove stop words** – `the`, `and`, `of` …
-4. **Stem lightly** – plurals are folded (`algorithms` → `algorithm`).
-5. **Look up** each query word in the inverted index.
-6. **Score** each candidate with TF-IDF × coverage.
-7. **Sort** best first. Relevance % is relative to the best match (best = 100%).
-8. **Snippet** – choose the ~230-character window containing the most query words, escape HTML, wrap matches in `<mark>`.
+## 🔍 Powerful Local Search
 
-### Inverted Index
-A dictionary from each word to the documents that contain it and how many times:
-```python
-{ "python":   {"doc1": 4, "doc3": 1, "doc7": 2},
-  "machine":  {"doc2": 6, "doc3": 1},
-  "learning": {"doc2": 5, "doc4": 2} }
-```
-A query only touches the entries for its own words, so it never has to read every file. The index is saved in `data/index/index.json`.
+Privata transforms a collection of local documents into a searchable knowledge library.
 
-### TF-IDF
-```
-TF     = (times the word appears in the document) / (document length)
-IDF    = ln((N + 1) / (df + 1)) + 1      N = number of documents, df = documents containing the word
-TF-IDF = TF × IDF
-score(document) = Σ TF-IDF(query word) × (query words found / query words total)
-```
-A word that is frequent in one document but rare across the library gets a high score. Words in the **file name** count as if they appeared 3 extra times (simple field boosting).
+Users can:
 
-## Project Structure
-```
-privata/
-├── app.py                  Flask app: pages + JSON API + validation
-├── requirements.txt        Flask, pypdf (optional)
-├── README.md  VIVA.md  TESTING.md
-├── search_engine/
-│   ├── tokenizer.py        normalise, tokenize, stop words, stemming
-│   ├── indexer.py          text extraction + inverted index + JSON storage
-│   ├── ranking.py          TF-IDF ranking
-│   ├── searcher.py         query processing, filters, snippets, highlighting, suggestions
-│   └── history.py          local search history + analytics
-├── templates/              base, index, search, documents, analytics, privacy, about, error
-├── static/css/style.css    themes, layout, animations
-├── static/js/app.js        UI logic (theme.js prevents a theme flash on load)
-├── data/documents/         your documents (samples included)
-├── data/index/             index.json + cached text (created automatically)
-├── data/app_data/          history.json (created automatically)
-└── screenshots/
+* Add documents
+* Build an index
+* Search keywords
+* Get ranked results
+* View relevant snippets
+* See matched keywords
+* Filter and sort results
+* Manage indexed documents
+* Rebuild the search index whenever required
+
+## 📊 Intelligent Relevance Ranking
+
+Privata uses a lightweight **TF-IDF-based ranking approach** to determine which documents are most relevant to a user's search query.
+
+```text
+TF-IDF = Term Frequency × Inverse Document Frequency
 ```
 
-## Installation
-1. Install **Python 3.9+** from python.org (tick *Add Python to PATH*).
-2. Open a terminal in the project folder (the one containing `app.py`).
-3. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-4. Start the app:
-   ```
-   python app.py
-   ```
-5. Open **http://127.0.0.1:5000** in your browser.
+This allows frequently relevant terms to contribute to document ranking while keeping the search engine lightweight and easy to understand.
 
-No Docker, Node.js, npm, MySQL, MongoDB, Redis or Apache is needed. The sample documents are indexed automatically at start-up, so you can search straight away. If `pypdf` cannot be installed, delete that line from `requirements.txt`; everything except `.pdf` still works.
+## ⚡ Efficient Inverted Index
 
-## How to Run
-`python app.py` → open `http://127.0.0.1:5000` → try the sample queries below. Stop with `Ctrl+C`. If port 5000 is busy, change the port on the last line of `app.py`.
+Privata implements an **inverted index** to efficiently connect words with the documents in which they appear.
 
-**Sample queries:** `machine learning` · `inverted index` · `python` · `database` · `flask` · `privacy` · `tf idf` · `responsive design`
+Example:
 
-## Screenshots
-| Home | Search |
-|---|---|
-| ![Home](screenshots/01-home.png) | ![Search](screenshots/02-search.png) |
-| **Dark mode** | **Documents** |
-| ![Dark](screenshots/03-search-dark.png) | ![Documents](screenshots/04-documents.png) |
-| **Analytics** | **Mobile** |
-| ![Analytics](screenshots/05-analytics.png) | ![Mobile](screenshots/06-mobile.png) |
+```text
+python   → document1, document3
+machine  → document2, document3
+learning → document2, document4
+```
 
-## Testing
-See **TESTING.md** for the manual test table. The backend was also exercised with Flask's test client and the UI with a headless browser (search, filters, upload, unsupported file, delete, theme, mobile width, no external requests).
+This provides an important foundation for efficient local information retrieval.
 
-## Limitations
-- Keyword search only: no synonyms or meaning-based search ("car" will not find "automobile").
-- Very light stemming (plurals only) and English stop words only.
-- Scanned PDFs (images) have no extractable text.
-- The index is a JSON file loaded in memory: fine for hundreds or a few thousand documents, not millions.
-- Files and the index are **not encrypted**, and there is no login because the app is meant for one user on one computer.
-- Search matches words, not exact phrases.
+## 📄 Supported Documents
 
-## Future Scope
-Phrase search and word-proximity boost · BM25 ranking · Porter stemmer / more languages · DOCX support · folder watching for automatic re-indexing · encrypted index · "did you mean" spelling correction · SQLite storage for bigger libraries.
+Privata supports lightweight and commonly used document formats:
 
-## Conclusion
-Privata shows, with small readable code, how a search engine turns documents into an inverted index, scores them with TF-IDF and returns ranked, highlighted results — while keeping every file and every query on the user's own computer.
+```text
+TXT
+MD
+HTML
+CSV
+```
+
+The project can also include sample educational documents, allowing users to immediately experience the search functionality after setup.
+
+## 🎨 Modern User Experience
+
+Privata is designed to provide a polished experience rather than a basic academic interface.
+
+The interface includes:
+
+* Modern landing page
+* Professional navigation
+* Large search interface
+* Animated lightweight background
+* Glass-style cards
+* Smooth transitions
+* Responsive layouts
+* Dark/Light themes
+* Interactive document cards
+* Professional empty states
+* Search result highlighting
+* Clean analytics dashboard
+
+## 📈 Analytics Dashboard
+
+The analytics section provides useful information about the local search system, including:
+
+* Total documents
+* Indexed vocabulary
+* Total searches
+* Average search time
+* Popular search terms
+* Index status
+
+Search performance is measured directly by the application to provide meaningful runtime statistics.
+
+## 🔒 Privacy-Centered Architecture
+
+Privata is designed around the principle:
+
+> **Your Search. Your Data. Your Privacy.**
+
+Document processing, indexing, and searching are performed locally on the user's machine.
+
+The application is designed without dependence on:
+
+```text
+Google Search
+Bing Search
+External Search APIs
+Cloud Storage
+Third-Party Search Services
+External AI APIs
+```
+
+This makes Privata a practical demonstration of **privacy-focused local information retrieval**.
+
+## 🛠️ Technology Stack
+
+**Frontend**
+
+* HTML5
+* CSS3
+* Vanilla JavaScript
+
+**Backend**
+
+* Python 3
+* Flask
+
+**Search Engine**
+
+* Custom Python Search Engine
+* Text Processing
+* Inverted Index
+* TF-IDF Ranking
+
+**Storage**
+
+* Local JSON
+* Local Files
+
+## 🚀 Simple & Lightweight
+
+Privata is intentionally designed to be easy to install, understand, demonstrate, and extend.
+
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5000
+```
+
+No complex infrastructure is required.
+
+## 🎓 MCA Project Value
+
+Privata demonstrates practical knowledge of:
+
+* Information Retrieval
+* Search Engine Architecture
+* Text Processing
+* Tokenization
+* Inverted Indexing
+* TF-IDF
+* Relevance Ranking
+* Query Processing
+* Flask Web Development
+* Frontend Development
+* Local Data Processing
+* Privacy-Oriented Application Design
+
+## 💼 Resume-Ready Project
+
+**Privata — Private Local Search Engine**
+
+Developed a privacy-focused local search engine using **Python, Flask, HTML, CSS, and JavaScript**, implementing **document indexing, inverted indexing, text preprocessing, TF-IDF-based relevance ranking, search suggestions, result highlighting, document management, and analytics** for efficient local information retrieval.
+
+## 🌟 Project Vision
+
+Privata demonstrates how a powerful search experience can be created using **local processing and lightweight search-engine concepts**, giving users a fast and organized way to discover information across their own documents.
+
+### **Privata**
+
+**Search Privately. Discover Locally.**
